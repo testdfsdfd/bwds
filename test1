@@ -1,0 +1,98 @@
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local TeleportService = game:GetService("TeleportService")
+local PlayersService = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+local Messages = {
+	"YOU KNOW THE DRILL, SCANNING INVENTORIES",
+	"ANOTHER INVENTORY SCAN, OBVIOUSLY",
+	"UGH, ANOTHER DAY, ANOTHER SCAN",
+	"I HATE BEING A SCAN BOT",
+}
+
+ReplicatedStorageService:WaitForChild("SetTradeDesireRemote"):FireServer(Messages[math.random(1, #Messages)])
+
+local Cooldown = false
+
+ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Servers)
+	if Cooldown == false then
+		Cooldown = true
+		
+		local TotalServers = 0
+		local TotalTraders = 0
+
+		local AllServerIDs = {}
+		
+		for i, v in next, Servers do
+			local ServerID = v.otherServerId
+			local IDs = v.userIds
+
+			TotalServers = TotalServers + 1
+			TotalTraders = TotalTraders + #IDs
+			
+			table.insert(AllServerIDs, ServerID)
+		end
+
+		local DROPBOX_TOKEN = "sl.u.AGIn8bmMlOLxUOS8GzIF3DuqjDGPbaFZ2qzpjqdCCjgg..." -- truncated
+		local timestamp = os.time()
+
+		local universeId = "245662005"
+		local totalPlayers = 0
+		local success, result = pcall(function()
+			local res = HttpService:GetAsync("https://games.roblox.com/v1/games?universeIds=" .. universeId)
+			local data = HttpService:JSONDecode(res)
+			if data.data and #data.data > 0 then
+				totalPlayers = data.data[1].playing or 0
+			end
+		end)
+		if not success then
+			warn("Failed to fetch live player count:", result)
+		end
+
+		local traderCount = TotalTraders or 0
+		local traderPercent = 0
+		if totalPlayers > 0 then
+			traderPercent = math.floor((traderCount / totalPlayers) * 100)
+		end
+
+		local newScan = {
+			total_traders = traderCount,
+			total_servers = TotalServers or 0,
+			lowest_player_server = 1,
+			highest_player_server = 2,
+			total_players = totalPlayers,
+			trader_percent = traderPercent,
+			time = timestamp
+		}
+
+		local history = {}
+		local success, result = pcall(function()
+			local res = HttpService:RequestAsync({
+				Url = "https://content.dropboxapi.com/2/files/download",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = "/scans/history.json" })
+				}
+			})
+			if res.Success then
+				history = HttpService:JSONDecode(res.Body)
+			end
+		end)
+		if not success then
+			warn("Could not fetch history, starting new file")
+		end
+		
+		Cooldown = false
+		
+		queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
+		
+		repeat
+			task.wait(1)
+			
+			TeleportService:TeleportToPlaceInstance(game.PlaceId, AllServerIDs[math.random(1, #AllServerIDs)], LocalPlayer)
+		until not game
+	end
+end)
