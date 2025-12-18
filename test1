@@ -61,7 +61,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 	local traderCount = TotalTraders or 0
 	local traderPercent = 0
 	if totalPlayers > 0 then
-		traderPercent = math.floor((traderCount / totalPlayers) * 100 * 10 + 0.5) / 10
+		traderPercent = traderCount / totalPlayers
 	end
 
 	-- Create new scan entry
