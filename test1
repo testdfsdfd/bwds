@@ -1,0 +1,82 @@
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local TeleportService = game:GetService("TeleportService")
+local PlayersService = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+local Messages = {
+	"YOU KNOW THE DRILL, SCANNING INVENTORIES",
+	"ANOTHER INVENTORY SCAN, OBVIOUSLY",
+	"UGH, ANOTHER DAY, ANOTHER SCAN",
+	"I HATE BEING A SCAN BOT",
+}
+
+ReplicatedStorageService:WaitForChild("SetTradeDesireRemote"):FireServer(Messages[math.random(1, #Messages)])
+
+local Cooldown = false
+
+ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Servers)
+	if Cooldown == false then
+		Cooldown = true
+		
+		local TotalServers = 0
+		local TotalTraders = 0
+
+		local AllServerIDs = {}
+		
+		for i, v in next, Servers do
+			local ServerID = v.otherServerId
+			local IDs = v.userIds
+
+			TotalServers = TotalServers + 1
+			TotalTraders = TotalTraders + #IDs
+			
+			table.insert(AllServerIDs, ServerID)
+		end
+
+		local timestamp = os.time()
+
+		local payloadTable = {
+			total_traders = TotalTraders,
+			total_servers = TotalServers,
+			lowest_player_server = 1,
+			highest_player_server = 2,
+			time = timestamp
+		}
+
+		local payloadJson = HttpService:JSONEncode(payloadTable)
+		
+		local dropboxHeaders = {
+			["Authorization"] = "Bearer " .. "sl.u.AGIn8bmMlOLxUOS8GzIF3DuqjDGPbaFZ2qzpjqdCCjggJBJKIRJ9pQZnLw5P7enXnSnQz0tvuttHDtvdgnCtv99e6MG35HJBVq0RR4DpVFu81fHrdTyfx3O7T8sPrAXz-4OBseQMby7cogTRzG-Uh9bkoWO3Ywae95WlkQSRMcW-gGsPCOkThtsSHhqFUbZgpeREKbXh1ecwhyP_PefoP6-Sds9YT1PTAsOH6FX6S0QLWV0DdkjlyTSj7lx5zta2q0-5Y0aMeeZTSpI1qfkbVv4M0TJXVM-hH62BYg84GyQGMDo6UkpDwAjCnP5TnIdhMSeHMWVNg-AEIpmJjoZAnNglhQ4SJXLcICuMI2bv37hyhdxtMBFPph69z9Np59d5mMW5d0vdh5zO35MWJd8r2Bz68To7hUC5DUW_b8qWEW0uLmp2GKzOiAh-6iQ40czkJ2EdYzyuq5lbqyP4SKKHUBvHwFuCCeW6_3UWbkeEQB1BQQNaRa4A4a2FPMMAVo37GRy1CxqKJ_o4S085rC_Q9lc1CJR2ArZlozY-Fje-p8nUfjRSn0Fgw4IuONMHvuc2wfsdfFUyJqDPRdqKEJ5rTIHHbsC5Dk8mMQyZvs2wcjzDJxPQQqFbI2aAXTTrcHL8Xpvx3hIuZEZrq1dDDICd4jIZLrP9GfGjChdtjaB9SCuZFshMH_RiPGBusskO84w8EMZEcvRu4fB7hprak9jNNfLQ_45RT5jL7ZrJf7mvzLPeTt0GW84VgfGA82CI5b8dRI_ozC2X0QUqTSByOQXifVOj4YhkcrQ80JkG8Qqy5AIhJ-wSakRQd_R1W0PRzTjcJ4AL6e5UGBqd27bQBKkrm4vhuz1C8sJ0P9U9dz-gesUQrS8ZmX4dUkQFtGuLXCgLxp349u8ae5leoHp86mFbF6trTQD68QpNjuSoLhx9SmRtxO34jY8pjrp1fWYI24wkLXCZiqykxn4UxhICr2St3Pb-ZCj_2Vz-iyjK2M680iN_H1oZ_CVI2xALiwq8t0lPeSUaxIckRzujAmiNGLe7t472hlzsKmJ-95OtUh9L6wGJktmpP-PxmJxUYwOiN9OlfHloJFoiULJkzDPDeMyqFrne80aPx9G9rg1j1W_NEZY7ey7UCstXIhyNo2eXyy1hlGmWjmraj7qkvC76Gs0hnwSLI10RQFvAKz9E1R2Ftf6q7mLdByL7larET2a_Exanr3B1MCTx0B_lHPZvEYp7yqTD3NOfMJFl8Ye2whkCgmBF0Bd59ddH4-DvDTWKnQJakl0jppZHdJqxcV_ka7BqfYOi0RbzJHktw_EvQ3KRyjJqt44jmdw6DAr6fGkOiX01_gzfi1VMUgQdbNpRozzNGd2R4iL4l6JAx53WqHBuiQLiia0pajA7ibYbJykzysOm9FPtrW5KiisD1Qs2OavdofMuc2dKwapfPzk0qFkgpaaYIR-bjAyWnWjscBG8caYBM1g",
+			["Dropbox-API-Arg"] = HttpService:JSONEncode({
+				path = "/scans/scan_" .. timestamp .. ".json",
+				mode = "add",
+				autorename = true,
+				mute = false
+			}),
+			["Content-Type"] = "application/octet-stream"
+		}
+
+		local response = HttpService:RequestAsync({
+			Url = "https://content.dropboxapi.com/2/files/upload",
+			Method = "POST",
+			Headers = dropboxHeaders,
+			Body = payloadJson
+		})
+
+		if not response.Success then
+			warn("Dropbox upload failed:", response.StatusCode, response.Body)
+		end
+		
+		Cooldown = false
+		
+		queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test'))()")
+		
+		repeat
+			task.wait(1)
+			
+			TeleportService:TeleportToPlaceInstance(game.PlaceId, AllServerIDs[math.random(1, #AllServerIDs)], LocalPlayer)
+		until not game
+	end
+end)
