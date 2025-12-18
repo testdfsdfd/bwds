@@ -96,7 +96,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	-- Append new scan and trim history
 	table.insert(history, newScan)
-	while #history > 250 do
+	while #history > 500 do
 		table.remove(history, 1)
 	end
 
