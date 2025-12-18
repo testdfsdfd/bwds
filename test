@@ -1,6 +1,17 @@
 local ReplicatedStorageService = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
+local PlayersService = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+local Messages = {
+	"UGH, ANOTHER DAY, ANOTHER SCAN",
+	"SCANNING INVENTORIES AND DATA",
+	"I HATE BEING A SCAN BOT",
+}
+
+ReplicatedStorageService:WaitForChild("SetTradeDesireRemote"):FireServer({Messages[math.random(1, #Messages)]})
 
 local Cooldown = false
 
@@ -39,6 +50,10 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 		
 		queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test'))()")
 		
-		TeleportService:TeleportToPlaceInstance(game.PlaceId, AllServerIDs[math.random(1, #AllServerIDs)], game:GetService("Players").LocalPlayer)
+		repeat
+			task.wait(1)
+			
+			TeleportService:TeleportToPlaceInstance(game.PlaceId, AllServerIDs[math.random(1, #AllServerIDs)], LocalPlayer)
+		until not game
 	end
 end)
