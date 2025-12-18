@@ -61,7 +61,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 	local traderCount = TotalTraders or 0
 	local traderPercent = 0
 	if totalPlayers > 0 then
-		traderPercent = math.floor((traderCount / totalPlayers) * 100)
+		traderPercent = math.round((traderCount / totalPlayers) * 100)
 	end
 
 	-- Create new scan entry
@@ -131,7 +131,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 	Cooldown = false
 
 	-- Queue code to load on teleport
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test5'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
 
 	-- Teleport to a random server
 	repeat
