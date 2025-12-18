@@ -37,7 +37,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 		
 		Cooldown = false
 		
-		queue_on_teleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test"))()')
+		queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test'))()")
 		
 		TeleportService:TeleportToPlaceInstance(game.PlaceId, AllServerIDs[math.random(1, #AllServerIDs)], game:GetService("Players").LocalPlayer)
 	end
