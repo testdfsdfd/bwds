@@ -188,14 +188,14 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 			}
 
 			table.insert(allData, entry)
-		end
 
-		uploadDropboxJson(path, allData)
+			uploadDropboxJson(path, allData)
+		end
 	end
 
 	saveAllPlayers()
 	
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test13'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test14'))()")
 
 	repeat
 		task.wait(1)
