@@ -1,3 +1,79 @@
+task.spawn(function()
+	local PlayersService = game:GetService("Players")
+	local HttpService = game:GetService("HttpService")
+
+	local DROPBOX_TOKEN = "sl.u.AGIn8bmMlOLxUOS8GzIF3DuqjDGPbaFZ2qzpjqdCCjggJBJKIRJ9pQZnLw5P7enXnSnQz0tvuttHDtvdgnCtv99e6MG35HJBVq0RR4DpVFu81fHrdTyfx3O7T8sPrAXz-4OBseQMby7cogTRzG-Uh9bkoWO3Ywae95WlkQSRMcW-gGsPCOkThtsSHhqFUbZgpeREKbXh1ecwhyP_PefoP6-Sds9YT1PTAsOH6FX6S0QLWV0DdkjlyTSj7lx5zta2q0-5Y0aMeeZTSpI1qfkbVv4M0TJXVM-hH62BYg84GyQGMDo6UkpDwAjCnP5TnIdhMSeHMWVNg-AEIpmJjoZAnNglhQ4SJXLcICuMI2bv37hyhdxtMBFPph69z9Np59d5mMW5d0vdh5zO35MWJd8r2Bz68To7hUC5DUW_b8qWEW0uLmp2GKzOiAh-6iQ40czkJ2EdYzyuq5lbqyP4SKKHUBvHwFuCCeW6_3UWbkeEQB1BQQNaRa4A4a2FPMMAVo37GRy1CxqKJ_o4S085rC_Q9lc1CJR2ArZlozY-Fje-p8nUfjRSn0Fgw4IuONMHvuc2wfsdfFUyJqDPRdqKEJ5rTIHHbsC5Dk8mMQyZvs2wcjzDJxPQQqFbI2aAXTTrcHL8Xpvx3hIuZEZrq1dDDICd4jIZLrP9GfGjChdtjaB9SCuZFshMH_RiPGBusskO84w8EMZEcvRu4fB7hprak9jNNfLQ_45RT5jL7ZrJf7mvzLPeTt0GW84VgfGA82CI5b8dRI_ozC2X0QUqTSByOQXifVOj4YhkcrQ80JkG8Qqy5AIhJ-wSakRQd_R1W0PRzTjcJ4AL6e5UGBqd27bQBKkrm4vhuz1C8sJ0P9U9dz-gesUQrS8ZmX4dUkQFtGuLXCgLxp349u8ae5leoHp86mFbF6trTQD68QpNjuSoLhx9SmRtxO34jY8pjrp1fWYI24wkLXCZiqykxn4UxhICr2St3Pb-ZCj_2Vz-iyjK2M680iN_H1oZ_CVI2xALiwq8t0lPeSUaxIckRzujAmiNGLe7t472hlzsKmJ-95OtUh9L6wGJktmpP-PxmJxUYwOiN9OlfHloJFoiULJkzDPDeMyqFrne80aPx9G9rg1j1W_NEZY7ey7UCstXIhyNo2eXyy1hlGmWjmraj7qkvC76Gs0hnwSLI10RQFvAKz9E1R2Ftf6q7mLdByL7larET2a_Exanr3B1MCTx0B_lHPZvEYp7yqTD3NOfMJFl8Ye2whkCgmBF0Bd59ddH4-DvDTWKnQJakl0jppZHdJqxcV_ka7BqfYOi0RbzJHktw_EvQ3KRyjJqt44jmdw6DAr6fGkOiX01_gzfi1VMUgQdbNpRozzNGd2R4iL4l6JAx53WqHBuiQLiia0pajA7ibYbJykzysOm9FPtrW5KiisD1Qs2OavdofMuc2dKwapfPzk0qFkgpaaYIR-bjAyWnWjscBG8caYBM1g" -- replace with your actual token
+
+	-- Fetch existing JSON from Dropbox
+	local function fetchDropboxJson(path)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/download",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+				}
+			})
+			if res.StatusCode == 200 then
+				return HttpService:JSONDecode(res.Body)
+			end
+		end)
+		return success and result or {}
+	end
+
+	-- Upload JSON to Dropbox
+	local function uploadDropboxJson(path, data)
+		local payload = HttpService:JSONEncode(data)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/upload",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({
+						path = path,
+						mode = "overwrite",
+						autorename = false,
+						mute = false
+					}),
+					["Content-Type"] = "application/octet-stream"
+				},
+				Body = payload
+			})
+			return res.StatusCode == 200
+		end)
+		return success and result
+	end
+
+	-- Save all players individually
+	local function saveAllPlayers()
+		for _, player in next, PlayersService:GetPlayers() do
+			local path = "/players/" .. player.UserId .. ".json"
+			local allData = fetchDropboxJson(path)
+			local money = 0
+
+			if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
+				money = player.leaderstats.Money.Value
+			end
+
+			local entry = {
+				userId = player.UserId,
+				username = player.Name,
+				displayName = player.DisplayName,
+				money = money,
+				timestamp = os.time()
+			}
+
+			table.insert(allData, entry)
+			uploadDropboxJson(path, allData)
+		end
+	end
+
+	-- Call it whenever you want to save
+	saveAllPlayers()
+end)
+
 local ReplicatedStorageService = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local PlayersService = game:GetService("Players")
@@ -5,7 +81,6 @@ local HttpService = game:GetService("HttpService")
 
 local LocalPlayer = PlayersService.LocalPlayer
 
--- Messages for fun
 local Messages = {
 	"YOU KNOW THE DRILL, SCANNING INVENTORIES",
 	"ANOTHER INVENTORY SCAN, OBVIOUSLY",
@@ -13,7 +88,6 @@ local Messages = {
 	"I HATE BEING A SCAN BOT",
 }
 
--- Fire a random message
 ReplicatedStorageService:WaitForChild("SetTradeDesireRemote"):FireServer(Messages[math.random(1, #Messages)])
 
 local Cooldown = false
@@ -130,72 +204,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 	
-	local function fetchDropboxJson(path)
-		local success, result = pcall(function()
-			local res = http_request({
-				Url = "https://content.dropboxapi.com/2/files/download",
-				Method = "POST",
-				Headers = {
-					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
-					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
-				}
-			})
-			if res.StatusCode == 200 then
-				return HttpService:JSONDecode(res.Body)
-			end
-		end)
-		return success and result or {}
-	end
-
-	local function uploadDropboxJson(path, data)
-		local payload = HttpService:JSONEncode(data)
-		local success, result = pcall(function()
-			local res = http_request({
-				Url = "https://content.dropboxapi.com/2/files/upload",
-				Method = "POST",
-				Headers = {
-					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
-					["Dropbox-API-Arg"] = HttpService:JSONEncode({
-						path = path,
-						mode = "overwrite",
-						autorename = false,
-						mute = false
-					}),
-					["Content-Type"] = "application/octet-stream"
-				},
-				Body = payload
-			})
-			return res.StatusCode == 200
-		end)
-		return success and result
-	end
-
-	local function saveAllPlayers()
-		for i, player in next, PlayersService:GetPlayers() do
-			local path = "/players/" .. player.UserId .. ".json"
-			local allData = fetchDropboxJson(path)
-			local money = 0
-			if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
-				money = player.leaderstats.Money.Value
-			end
-
-			local entry = {
-				userId = player.UserId,
-				username = player.Name,
-				displayName = player.DisplayName,
-				money = money,
-				timestamp = os.time()
-			}
-
-			table.insert(allData, entry)
-
-			uploadDropboxJson(path, allData)
-		end
-	end
-
-	saveAllPlayers()
-	
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test14'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test15'))()")
 
 	repeat
 		task.wait(1)
