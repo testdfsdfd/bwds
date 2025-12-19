@@ -1,0 +1,92 @@
+	local PlayersService = game:GetService("Players")
+	local HttpService = game:GetService("HttpService")
+
+	local DROPBOX_TOKEN = "sl.u.AGLJ_TQZbdJBNBjhZ0tewJcAK2UAIOibbEcwj6_tCbUAAC25h9fwDsxkj0A5xJSuzvFJh_VG8CJ99Mysx42WlbQX8o3hdu1KVKJYrYdsM3Hd-x4J3B8XEogPhiA_Va1RHYs___ftjFEXSqgzfeOTK7XaVsBig6sGTorgwyTT2uW5byx2ol1Z-_3mGicFSUE7Zi5olB3vnKyNMh_qlsl4TZwDYbBuf1lwOqkWS6o71Xp-pJdND3cg9iU6Aw2LCMffkRIbn-zgeCsGvXw9WdKihy2HAWwuedK2n0bBMyaSGOcbPP9kx5mRz41kWxWpzxitE3yW3F4SNIpKu31rz1tbUe0Upq7s1p48DZrymeMN0JK8Z3GXHS-tNc86ZG4HP60eLAqmWhscYXaCi8i7gpJ44Cx66h0-Q6GFmDzqHSlfagLUaiIKvKxgJRYM2Xz6xsDmp4sjqwWYa0_xvZDqpHGW7Kb2ln44qG6xm4mW1zOcx3liuUhcQRNoT_qEhcfkbsw_l3CLENBcEvH-ldbfwW1pKlvO6xrb_aeWHdXrxGgk4Ts1J5kZTXGmMLItrZl10CvN-RbbotY17--xnqhrnxEi7-puGnIPrmdOt4ZMUAQzt_6xlZRSZgnIGjjJMJfYiRQWkO2y9oOrp6jQpZ4p0T7QNsiKw51wQ8ZDvKv94zwmlI3Urcy7I8vLQ5BuYOHoNihQ8nnjMk7NSJSobSHhBE_98U3kDH2c1B1CR7PB0oOARyJQ5wlj7zLY7V1Z4P3bkPmeuV4EHf4SVHY58Ypkz8DIdcHBwIkF_aEAKyFHU_8ftiwom2Rp4Sg1fPZ1Tko5BmfHDwBRM0Yl1d_Y60J9p3zohXQ_ZGDxWRfhcRMnc9-B2zlqkyUWZPm0KQq-ALgsL7dv-NyxR2ifIyO6sNH1QasQs7qvUOBBHpzZpDuVX9qMmm0HEMezbPBhIzsqd1Sr77uep59LvPK5epYfO2qGV9JcQVnxq54BQwAEzQnlN54VImuT8Zbvzj04OYk-3Sk99K5TvMTlxAN_kcrRx81wUwFVWI9gQRqQeqdETKdy93H-2VXR8dJymBTgB1ODlirjhYZ2rd29Ujis7VvtUdqeC09419pR5Y1oBjYbGnF6O1ynAj_NEa_IXXh_ru22ZHea7GGljQrxlKiv6lUlVhmoBOlRXMIYEdz7KrvKM3wczwNzsIUSP6JhubxSqip-XSBBxaHJuLaxWEQahy2fPsR6qHcJhqgDkxAtoMDKbImjMyshNjyKwuUu_i8z0u2wy0on919X3y2ldYGQEkNcdbNmY36chcpEMXjwPG9CTy19otY48QVIvAkOeg5r529LOpHbI6i6xqNBHGimIfbxnEECLgMRIffF5LRfYhUfG0YFhCfgWxcmQLvc3Ebnk-jQyY1Ck2H7sMvn7CHE1tpUGk2-gsFRNHBH4UEBV3LKiOTwZPGecXT7NmbWzRNa5GZsUnSKXxjEEvY"
+
+	-- Fetch existing JSON from Dropbox
+	local function fetchDropboxJson(path)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/download",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+				}
+			})
+			if res.StatusCode == 200 then
+				return HttpService:JSONDecode(res.Body)
+			end
+		end)
+		return success and result or {}
+	end
+
+	-- Upload JSON to Dropbox
+	local function uploadDropboxJson(path, data)
+		local payload = HttpService:JSONEncode(data)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/upload",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({
+						path = path,
+						mode = "overwrite",
+						autorename = false,
+						mute = false
+					}),
+					["Content-Type"] = "application/octet-stream"
+				},
+				Body = payload
+			})
+			return res.StatusCode == 200
+		end)
+		return success and result
+	end
+
+	-- Save all players individually
+	local function saveAllPlayers()
+		for _, player in next, PlayersService:GetPlayers() do
+			local path = "/players/" .. player.UserId .. ".json"
+			local allData = fetchDropboxJson(path)
+			local money = 0
+
+			if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
+				money = player.leaderstats.Money.Value
+			end
+
+			local entry = {
+				userId = player.UserId,
+				username = player.Name,
+				displayName = player.DisplayName,
+				money = money,
+				timestamp = os.time()
+			}
+
+			table.insert(allData, entry)
+			uploadDropboxJson(path, allData)
+		end
+	end
+
+	-- Call it whenever you want to save
+	saveAllPlayers()
+	
+local res = http_request({
+	Url = "https://games.roblox.com/v1/games//606849621/servers/Public?limit=100",
+	Method = "GET"
+})
+
+local data = HttpService:JSONDecode(res.Body).data
+
+queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/servertest1'))()")
+
+repeat
+	task.wait(1)
+	game:GetService("TeleportService"):TeleportToPlaceInstance(
+		game.PlaceId,
+		data[math.random(1, #data)].id,
+		game:GetService("Players").LocalPlayer
+	)
+until not game
+
