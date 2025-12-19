@@ -84,6 +84,7 @@ local LocalPlayer = PlayersService.LocalPlayer
 local Messages = {
 	"YOU KNOW THE DRILL, SCANNING INVENTORIES",
 	"ANOTHER INVENTORY SCAN, OBVIOUSLY",
+	"SAW THE UPDATE, GUESS I'LL SCAN",
 	"UGH, ANOTHER DAY, ANOTHER SCAN",
 	"I HATE BEING A SCAN BOT",
 }
@@ -170,7 +171,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	-- Append new scan and trim history
 	table.insert(history, newScan)
-	while #history > 500 do
+	while #history > 2000 do
 		table.remove(history, 1)
 	end
 
