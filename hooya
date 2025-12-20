@@ -1,0 +1,311 @@
+local DROPBOX_TOKEN = "sl.u.AGIOb-wdEdxBkKAKfT5eK0y2uON1x9Uyq9U-M3-ZKdZOiPqNmVAv5XAjq25H04E0WppXRnkWBdhsspfpvaIxOaRYSGMbFz7AEP7HrdNeUYnBKrcy5asws1DvsAd1_rAj0Yc4xliJVGv5do2VArI7gzZF2JCrnWaprRe4k5550x6qqgFivAhVAeouJf7A6pVurFdoXuF0QrfbkcMh4sVh9pcXcIz6AUUK1ZMd9tX9UUd4CS5F8gL4zqEJqbjJTrpUaFvWvmNGySiJquoHMDuAc2T5vKQob--9lHa2oW12ny1-WU_OnnKiP04X8wD9najXxBmyxJCNbRT_b7SygFV2hW9MUVSK5Dc_MtChUW5jmCeCjloJEKesfaurjYN4-YEcpGyOgfxaujyqNGqCmZwhG_FpzTviZ8fUqTpjXIAn994iHshxgNam3pxnN4QPXTY9-ResAOSezSJABAVzskofYa7e36G-dU8DQqXxG-FS_0NvSbc4F183oB-_LMUgFR5srKa1Cc8yItj7kN-F1wXee7MmvR9Hha8tibe7njzQz1zV1tseL3vlMKUyf74DGbsOeA5w6BjJGB-yNvgToBv6nRbnlm6_PGbi9El56E2gjZ-jzBoCD_oL54F9tBWySM6zXjeE4XhwizM1VHK_H8tTZIaNkpx5MWQ8PtW_DqaJi_frcGVZC93Hmg93EwKLFqSIijWetbQd0VKNJ2Mrnj0Xwbv97ARHZhoQwL31MrB_ym02LOqleDRmERmkqXP9YJxZpGkzD8tFbZSPD5sa4dM5eN2_68jHNn0EhY7P1xLAV_o_xreD9FmyJVborvg3XL8u0ubKM-XZSTp56SyTnyjnoTRKIZpe6I2Tz5ydAEO_6C6a2xI5nLNm-C9_srj3DTxHTIWV6LX8VMGs8zBuCfuG8puszjBwVgpiEs3zNH2bJT5_8SloPVBCBbxK6BXTI2lcsPptcpwcvy_3jzC_ZyYYTbCMOh2mgplCGAyBmRTaWS2heX7IbcM-zhbHZ-3iUDdOt7tCrQaCURlaHLZm5ir_7SJCuLaiRuPyINTS6E_Pxpj8mu_xfRa-dodOlZyCCqg9squpWMAp0Uxy-wnbAq-EkFKWy8dm19LKoEzHyv-a4QQ7O-aAQzB80Cw8eRsK69ihxCLQ-rGA249LC2tM2mOROcIinHFOxzeCtUbEtP5nwrYGnH1AGJYStyRrc_kKACMcBI2wapxlWbpYK8EXqUj3rjG5rSBWp8IzqfM43V1zpYsl46KDXmtwdpXlDDTa-625xyu4FNh1u7wjp3RoP7Vz-Dx4c0vpAWRpa23P5UrZhQidEH05O4OLnbOZjmRYAYFmHKQSeWiN5f2te6l6jtwOPMnYBDaNaYBArSlOayZsKOLZbCs4gVSyx5PYdRSX9HZeBgtJjgQvHhvKWfb_QUC6QpvOvEqe8Z7GloHzxWZC_PWNH_URcMp-WTzbekfeN13vpDA"
+
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local args = {
+	"Spying On Live Trades"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("SetTradeDesireRemote"):FireServer(unpack(args))
+
+
+local TextChatService = game:GetService("TextChatService")
+local HttpService = game:GetService("HttpService")
+
+local PlayersService = game:GetService("Players")
+
+local http_request = http_request or request or HttpPost or syn.request
+
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+LocalPlayer.ActiveTrade.Value = true
+
+task.wait(1)
+
+pcall(function()
+	firesignal(LocalPlayer.PlayerGui.AppUI.Trade.Offerings.Player1Offering.Cards[1].Activated)
+end)
+
+task.wait(1)
+
+task.spawn(function()
+	local PlayersService = game:GetService("Players")
+	local HttpService = game:GetService("HttpService")
+
+	-- Fetch existing JSON from Dropbox
+	local function fetchDropboxJson(path)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/download",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+				}
+			})
+			if res.StatusCode == 200 then
+				return HttpService:JSONDecode(res.Body)
+			end
+		end)
+		return success and result or {}
+	end
+
+	-- Upload JSON to Dropbox
+	local function uploadDropboxJson(path, data)
+		local payload = HttpService:JSONEncode(data)
+		local success, result = pcall(function()
+			local res = http_request({
+				Url = "https://content.dropboxapi.com/2/files/upload",
+				Method = "POST",
+				Headers = {
+					["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+					["Dropbox-API-Arg"] = HttpService:JSONEncode({
+						path = path,
+						mode = "overwrite",
+						autorename = false,
+						mute = false
+					}),
+					["Content-Type"] = "application/octet-stream"
+				},
+				Body = payload
+			})
+			return res.StatusCode == 200
+		end)
+		return success and result
+	end
+
+	-- Save all players individually
+	local function saveAllPlayers()
+		for _, player in next, PlayersService:GetPlayers() do
+			local path = "/players/" .. player.UserId .. ".json"
+			local allData = fetchDropboxJson(path)
+			local money = 0
+
+			if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
+				money = player.leaderstats.Money.Value
+			end
+
+			local entry = {
+				userId = player.UserId,
+				username = player.Name,
+				displayName = player.DisplayName,
+				money = money,
+				timestamp = os.time()
+			}
+
+			table.insert(allData, entry)
+			uploadDropboxJson(path, allData)
+		end
+	end
+
+	-- Call it whenever you want to save
+	saveAllPlayers()
+end)
+
+local inventoryRequestQueue = {}
+local isProcessingInventoryRequest = false
+
+local function processNextInventoryRequest()
+	if #inventoryRequestQueue == 0 then
+		isProcessingInventoryRequest = false
+		return
+	end
+
+	isProcessingInventoryRequest = true
+
+	local nextRequest = table.remove(inventoryRequestQueue, 1)
+	local player = nextRequest.Player
+	local bindable = nextRequest.Bindable
+
+	local inventory = GetPlayerInventory(player)
+
+	bindable:Fire(inventory)
+
+	task.spawn(processNextInventoryRequest)
+end
+
+function RequestPlayerInventory(player)
+	local bindable = Instance.new("BindableEvent")
+
+	table.insert(inventoryRequestQueue, {
+		Player = player,
+		Bindable = bindable
+	})
+
+	if not isProcessingInventoryRequest then
+		task.spawn(processNextInventoryRequest)
+	end
+
+	-- Wait for the inventory to be returned
+	return bindable.Event:Wait()
+end
+
+function GetPlayerInventory(Player)
+	if Player  then
+		local Inventory = {}
+
+		ReplicatedStorageService:WaitForChild("TradeInventoryUpdatePlayer"):FireServer(Player)
+
+		task.wait(0.6)
+
+		for i = 1, 12 do
+			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
+
+			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
+				print(v)
+				table.insert(Inventory, v.Title.Text.Text)
+			end
+
+			task.wait(0.2)
+		end
+
+		return Inventory
+	end
+
+	return nil
+end
+
+local inventory = GetPlayerInventory(LocalPlayer)
+
+
+
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local TeleportService = game:GetService("TeleportService")
+local PlayersService = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+local Messages = {
+	"YOU KNOW THE DRILL, SCANNING INVENTORIES",
+	"ANOTHER INVENTORY SCAN, OBVIOUSLY",
+	"SAW THE UPDATE, GUESS I'LL SCAN",
+	"UGH, ANOTHER DAY, ANOTHER SCAN",
+	"I HATE BEING A SCAN BOT",
+}
+
+ReplicatedStorageService:WaitForChild("SetTradeDesireRemote"):FireServer(Messages[math.random(1, #Messages)])
+
+local Cooldown = false
+
+ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Servers)
+	if Cooldown then return end
+	Cooldown = true
+
+	local TotalServers = 0
+	local TotalTraders = 0
+	local AllServerIDs = {}
+
+	-- Count servers and traders
+	for i, v in next, Servers do
+		local ServerID = v.otherServerId
+		local IDs = v.userIds
+
+		TotalServers = TotalServers + 1
+		TotalTraders = TotalTraders + #IDs
+
+		table.insert(AllServerIDs, ServerID)
+	end
+
+	local timestamp = os.time()
+
+	-- Fetch live total players
+	local universeId = "245662005"
+	local totalPlayers = 0
+	local success, result = pcall(function()
+		local res = http_request({
+			Url = "https://games.roblox.com/v1/games?universeIds=" .. universeId,
+			Method = "GET"
+		})
+		local data = HttpService:JSONDecode(res.Body)
+		if data.data and #data.data > 0 then
+			totalPlayers = data.data[1].playing or 0
+		end
+	end)
+	if not success then
+		warn("Failed to fetch live player count:", result)
+	end
+
+	-- Calculate trader percentage
+	local traderCount = TotalTraders or 0
+	local traderPercent = 0
+	if totalPlayers > 0 then
+		traderPercent = math.floor((traderCount / totalPlayers) * 100 * 10 + 0.5) / 10
+	end
+
+	-- Create new scan entry
+	local newScan = {
+		total_traders = traderCount,
+		total_servers = TotalServers or 0,
+		lowest_player_server = 1,
+		highest_player_server = 2,
+		total_players = totalPlayers,
+		trader_percent = traderPercent,
+		time = timestamp
+	}
+
+	-- Fetch existing history from Dropbox
+	local history = {}
+	local success, result = pcall(function()
+		local res = http_request({
+			Url = "https://content.dropboxapi.com/2/files/download",
+			Method = "POST",
+			Headers = {
+				["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+				["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = "/scans/history.json" })
+			}
+		})
+		if res.StatusCode == 200 then
+			history = HttpService:JSONDecode(res.Body)
+		end
+	end)
+	if not success then
+		warn("Could not fetch history, starting new file")
+	end
+
+	-- Append new scan and trim history
+	table.insert(history, newScan)
+	while #history > 20000 do
+		table.remove(history, 1)
+	end
+
+	-- Upload updated history
+	local payloadJson = HttpService:JSONEncode(history)
+	local dropboxHeaders = {
+		["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+		["Dropbox-API-Arg"] = HttpService:JSONEncode({
+			path = "/scans/history.json",
+			mode = "overwrite",
+			autorename = false,
+			mute = false
+		}),
+		["Content-Type"] = "application/octet-stream"
+	}
+
+	local uploadSuccess, uploadResult = pcall(function()
+		local res = http_request({
+			Url = "https://content.dropboxapi.com/2/files/upload",
+			Method = "POST",
+			Headers = dropboxHeaders,
+			Body = payloadJson
+		})
+		if res.StatusCode ~= 200 then
+			warn("Dropbox upload failed:", res.StatusCode, res.Body)
+		end
+	end)
+	if not uploadSuccess then
+		warn("Failed to upload history:", uploadResult)
+	end
+
+	Cooldown = false
+
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
+
+	repeat
+		task.wait(1)
+		TeleportService:TeleportToPlaceInstance(
+			game.PlaceId,
+			AllServerIDs[math.random(1, #AllServerIDs)],
+			LocalPlayer
+		)
+	until not game
+end)
