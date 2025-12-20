@@ -141,19 +141,17 @@ end
 
 function GetPlayerInventory(Player)
 	if Player  then
-		print("e2")
 		local Inventory = {}
 
 		ReplicatedStorageService:WaitForChild("TradeInventoryUpdatePlayer"):FireServer(Player)
 
 		task.wait(0.6)
-		print("e1")
+
 		for i = 1, 12 do
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 
 			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
-				print(v.Name)
-				print("e")
+				print(v)
 				table.insert(Inventory, v.Title.Text.Text)
 			end
 
