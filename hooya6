@@ -151,8 +151,57 @@ function GetPlayerInventory(Player)
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 
 			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
-				print(v)
-				table.insert(Inventory, v.Title.Text.Text)
+				local Category
+				
+				if i == 1 then
+					Category = "Vehicule"
+				end
+				
+				if i == 2 then
+					Category = "Furniture"
+				end
+				
+				if i == 3 then
+					Category = "Weapon Skin"
+				end
+				
+				if i == 4 then
+					Category = "Texture"
+				end
+				
+				if i == 5 then
+					Category = "Rim"
+				end
+				
+				if i == 6 then
+					Category = "Spoiler"
+				end
+				
+				if i == 7 then
+					Category = "Tire Sticker"
+				end
+				
+				if i == 8 then
+					Category = "Tire Style"
+				end
+				
+				if i == 9 then
+					Category = "Horn"
+				end
+				
+				if i == 10 then
+					Category = "Color"
+				end
+				
+				if i == 11 then
+					Category = "Drift"
+				end
+				
+				if i == 12 then
+					Category = "Consumable"
+				end
+				
+				table.insert(Inventory, v.Title.Text.Text, Category)
 			end
 
 			task.wait(0.2)
@@ -170,6 +219,6 @@ task.spawn(function()
 	local inventory = RequestPlayerInventory(LocalPlayer)
 	
 	for i, v in next, inventory do
-		print(i,v)
+		print(v[1], v[2])
 	end
 end)
