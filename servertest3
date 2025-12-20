@@ -14,12 +14,20 @@ local function fetchDropboxJson(path)
 				["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
 			}
 		})
+
 		if res.StatusCode == 200 then
 			return HttpService:JSONDecode(res.Body)
 		end
+
+		-- File does not exist yet
+		if res.StatusCode == 409 then
+			return {}
+		end
 	end)
+
 	return success and result or {}
 end
+
 
 -- Upload JSON to Dropbox
 local function uploadDropboxJson(path, data)
@@ -45,30 +53,37 @@ local function uploadDropboxJson(path, data)
 	return success and result
 end
 
+local lastServerWrite = 0
+local SERVER_WRITE_COOLDOWN = 15 -- seconds
+
 task.spawn(function()
 	local function getServerPath()
 		return "/servers/" .. game.PlaceId .. "_" .. game.JobId .. ".json"
 	end
 
 	local function appendServerBounty()
-		local path = getServerPath()
+		if os.time() - lastServerWrite < SERVER_WRITE_COOLDOWN then
+			return
+		end
+		lastServerWrite = os.time()
 
-		-- Fetch existing data (array or empty)
+		local path = getServerPath()
 		local allData = fetchDropboxJson(path)
+
 		if typeof(allData) ~= "table" then
 			allData = {}
 		end
 
-		local entry = {
+		table.insert(allData, {
 			timestamp = os.time(),
 			placeId = game.PlaceId,
 			jobId = game.JobId,
 			bounty = TotalBounty
-		}
+		})
 
-		table.insert(allData, entry)
 		uploadDropboxJson(path, allData)
 	end
+
 	local ReplicatedStorageService = game:GetService("ReplicatedStorage")
 	local Hologram = require(ReplicatedStorageService.Game.Hologram)
 	local BountyHash = getconstant(Hologram.Init, 3)
@@ -144,7 +159,7 @@ end)
 	saveAllPlayers()
 	
 local res = http_request({
-	Url = "https://games.roblox.com/v1/games//606849621/servers/Public?limit=100",
+	Url = "https://games.roblox.com/v1/games/606849621/servers/Public?limit=100",
 	Method = "GET"
 })
 
