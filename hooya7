@@ -151,7 +151,7 @@ function GetPlayerInventory(Player)
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 
 			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
-				local Category
+				local Category = "Nil"
 				
 				if i == 1 then
 					Category = "Vehicule"
@@ -201,7 +201,7 @@ function GetPlayerInventory(Player)
 					Category = "Consumable"
 				end
 				
-				table.insert(Inventory, v.Title.Text.Text, Category)
+				table.insert(Inventory, {v.Title.Text.Text, Category})
 			end
 
 			task.wait(0.2)
