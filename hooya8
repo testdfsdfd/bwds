@@ -216,7 +216,7 @@ end
 task.spawn(function()
 	task.wait(1)
 
-	local inventory = RequestPlayerInventory(LocalPlayer)
+	local inventory = RequestPlayerInventory(game:GetService("Players").ChristmasCandyGobler)
 	
 	for i, v in next, inventory do
 		print(v[1], v[2])
