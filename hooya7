@@ -229,7 +229,7 @@ function GetPlayerInventory(Player)
 		for i = 1, 12 do
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 			
-			local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[CategoryIndexMap[i]].Title.Text.Text
+			local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
 			
 			print(Category)
 		
