@@ -203,6 +203,21 @@ function RequestPlayerInventory(player)
 	return bindable.Event:Wait()
 end
 
+local CategoryIndexMap = {
+	12,
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	7,
+	8,
+	9,
+	10,
+	11
+}
+
 function GetPlayerInventory(Player)
 	if Player  then
 		local Inventory = {}
@@ -213,16 +228,17 @@ function GetPlayerInventory(Player)
 
 		for i = 1, 12 do
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
-
-			local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
-
-			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do 				
-				table.insert(Inventory, {v2:WaitForChild("Title").Text.Text, Category})
-				
-				task.wait(0.1)
+			
+			task.wait(0.2)
+			
+			--local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
+			local Category = "Nil"
+		
+			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do 	
+				if v2:WaitForChild("Title").Text.Text then
+					table.insert(Inventory, {v2:WaitForChild("Title").Text.Text, Category})
+				end
 			end
-
-			task.wait(1)
 		end
 
 		return Inventory
@@ -382,7 +398,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test4'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
 
 	repeat
 		task.wait(1)
