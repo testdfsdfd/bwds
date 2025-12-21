@@ -1,4 +1,4 @@
-local DROPBOX_TOKEN = "sl.u.AGIOb-wdEdxBkKAKfT5eK0y2uON1x9Uyq9U-M3-ZKdZOiPqNmVAv5XAjq25H04E0WppXRnkWBdhsspfpvaIxOaRYSGMbFz7AEP7HrdNeUYnBKrcy5asws1DvsAd1_rAj0Yc4xliJVGv5do2VArI7gzZF2JCrnWaprRe4k5550x6qqgFivAhVAeouJf7A6pVurFdoXuF0QrfbkcMh4sVh9pcXcIz6AUUK1ZMd9tX9UUd4CS5F8gL4zqEJqbjJTrpUaFvWvmNGySiJquoHMDuAc2T5vKQob--9lHa2oW12ny1-WU_OnnKiP04X8wD9najXxBmyxJCNbRT_b7SygFV2hW9MUVSK5Dc_MtChUW5jmCeCjloJEKesfaurjYN4-YEcpGyOgfxaujyqNGqCmZwhG_FpzTviZ8fUqTpjXIAn994iHshxgNam3pxnN4QPXTY9-ResAOSezSJABAVzskofYa7e36G-dU8DQqXxG-FS_0NvSbc4F183oB-_LMUgFR5srKa1Cc8yItj7kN-F1wXee7MmvR9Hha8tibe7njzQz1zV1tseL3vlMKUyf74DGbsOeA5w6BjJGB-yNvgToBv6nRbnlm6_PGbi9El56E2gjZ-jzBoCD_oL54F9tBWySM6zXjeE4XhwizM1VHK_H8tTZIaNkpx5MWQ8PtW_DqaJi_frcGVZC93Hmg93EwKLFqSIijWetbQd0VKNJ2Mrnj0Xwbv97ARHZhoQwL31MrB_ym02LOqleDRmERmkqXP9YJxZpGkzD8tFbZSPD5sa4dM5eN2_68jHNn0EhY7P1xLAV_o_xreD9FmyJVborvg3XL8u0ubKM-XZSTp56SyTnyjnoTRKIZpe6I2Tz5ydAEO_6C6a2xI5nLNm-C9_srj3DTxHTIWV6LX8VMGs8zBuCfuG8puszjBwVgpiEs3zNH2bJT5_8SloPVBCBbxK6BXTI2lcsPptcpwcvy_3jzC_ZyYYTbCMOh2mgplCGAyBmRTaWS2heX7IbcM-zhbHZ-3iUDdOt7tCrQaCURlaHLZm5ir_7SJCuLaiRuPyINTS6E_Pxpj8mu_xfRa-dodOlZyCCqg9squpWMAp0Uxy-wnbAq-EkFKWy8dm19LKoEzHyv-a4QQ7O-aAQzB80Cw8eRsK69ihxCLQ-rGA249LC2tM2mOROcIinHFOxzeCtUbEtP5nwrYGnH1AGJYStyRrc_kKACMcBI2wapxlWbpYK8EXqUj3rjG5rSBWp8IzqfM43V1zpYsl46KDXmtwdpXlDDTa-625xyu4FNh1u7wjp3RoP7Vz-Dx4c0vpAWRpa23P5UrZhQidEH05O4OLnbOZjmRYAYFmHKQSeWiN5f2te6l6jtwOPMnYBDaNaYBArSlOayZsKOLZbCs4gVSyx5PYdRSX9HZeBgtJjgQvHhvKWfb_QUC6QpvOvEqe8Z7GloHzxWZC_PWNH_URcMp-WTzbekfeN13vpDA"
+local DROPBOX_TOKEN = "sl.u.AGIgCieFJrjqATtsVIvOUM0an4n4pp87n7sMxmZpCLMU8TztTXacvOZODGf_95aYHjUxtdbD4FedZxGHaZsF6iqJvzpcwrCvYkcXCDuPubT-jF0vow8OWPlTzrIY0-JVv7qsZUJl4RO9JKT51aP5VX6THXAZmccSm5FxEFqYOkms6dJLSCMv0Na2NShyCDf8o-3o6V5LOlWSCdSzDD4vJ-3cgwW4MrDr5wieHAnOC7Ui6Q_ue1EbkLifVTCVo8xfm8u2fKXWoVN27Q-bpeGm0YjTiSm4Vm7UMDbBc2rWraUIkP3Q_eZ7hWRHopdksiS3Of_OcCjtObNZlP_TQtmMGw7A0d49Ox07B9JRbA4-KtApQWIO5omQYvooBWDof1eUGxUb2SkIPIpTLKDauTavrdrbB3FcrRz_h4yepokyi2PYRwqiYddthx2AWay3VM1koY78ueV8YVsBFVx3X89KsTyyJFPuhd9Sg_SToLbj5-d9Ufp2OI3crcN6Z_tqONEJ4k1jAB61YkCrmGgViEfp9KA10xNCYYXdI9dGq0uiQDJizjhzXas4CUdHfy5fskSK7b0_9lrJ6VemSTaNM81xZ0IsUlDhGfWIcwvRSl8U1RuAhuaLx3TB_QflUq2iVuhEkTFsB68jElXTdOt_ESePxIiuH6UJovK2H2WCobmFRD91AQTqsA7CPYubtIJNcdcASKoiT4jpOm-jyE0SFxR_xk-2WOFeUDl31MsgngVXCZh7FzDyIhFCN5nIYfwXfPDGhl1-BcFChzEnvkhUKEE_aPdRLxT7xG72EZGLbjpSUSbMUQUCsJl2rMi9oBP77DRz0Te1WDdBvSF-3dMV8_fKK-jXcMtqz3f32CnLvJFwuxYFscRKIWE42WMhnAgMjg_tAHWvwy92jfzEHSJkVfGxuOUjm9nJWL9L4t8JpIq_i82iR0FrFGT42I3W_tl5rfPnrUJiPh_jdXX5BTrltk0lfxp6NlbcLAD_PbSZkRbBQzlZqb5aYENU3jZVfLzwl0DAR6OBamJpyidDhyFrb3TNGeKznZ1yMw9I-AFEAaM3AQIil2aRwUdAqqXsoXW4kLpKD-jR1irv03niorNb_3VdTjqSHqsYGpjqqWDivU-IPXwSeVTQOtVsS5Z592KHCwWQWEASnKujdXT4MGnnjmF_9o7-gYpEDZIYhWtmu9gk7ICo0-WnUqT9JiywRmnb45J3LujC7npU2PTe1fjHGqup-3fy2B8y2mC62HE-IFzYjBFuRDxlYVoyN7Dom5X0bdFCP9A8eE9Lt9YbSY5f4bFK-GNTav8OnkZwndURESLPsNtou5-ZnrZCoPhCcBYZqNt83MngP3yF-RkICRNUDssfJRjVhmVaXjG8WLwWdkqOKf3JT3ijy1dNZcAatXax9D1oSl-c4fXL8ghsGpBVGnXqMjcDropDpR40qhXrN8YSk_j1qTOmeoe3DTMYwqfy0n7XVV8"
 
 local ReplicatedStorageService = game:GetService("ReplicatedStorage")
 local args = {
@@ -26,6 +26,70 @@ task.spawn(function()
 	end)
 
 end)
+
+local function fetchUserInventory(userId)
+	local path = "/Inventories/" .. userId .. ".json"
+
+	local success, result = pcall(function()
+		local res = http_request({
+			Url = "https://content.dropboxapi.com/2/files/download",
+			Method = "POST",
+			Headers = {
+				["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+				["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+			}
+		})
+
+		if res.StatusCode == 200 then
+			return HttpService:JSONDecode(res.Body)
+		end
+	end)
+
+	return (success and type(result) == "table") and result or {}
+end
+
+
+local function uploadUserInventory(userId, data)
+	local path = "/Inventories/" .. userId .. ".json"
+
+	http_request({
+		Url = "https://content.dropboxapi.com/2/files/upload",
+		Method = "POST",
+		Headers = {
+			["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+			["Dropbox-API-Arg"] = HttpService:JSONEncode({
+				path = path,
+				mode = "overwrite",
+				autorename = false,
+				mute = true
+			}),
+			["Content-Type"] = "application/octet-stream"
+		},
+		Body = HttpService:JSONEncode(data)
+	})
+end
+
+local function savePlayerInventory(Player, inventory)
+	if not inventory then return end
+
+	local existingData = fetchUserInventory(Player.UserId)
+
+	local formattedInventory = {}
+	for _, v in ipairs(inventory) do
+		table.insert(formattedInventory, {
+			name = v[1],
+			category = v[2]
+		})
+	end
+
+	table.insert(existingData, {
+		timestamp = os.time(),
+		inventory = formattedInventory
+	})
+
+	uploadUserInventory(Player.UserId, existingData)
+end
+
 
 task.spawn(function()
 	local PlayersService = game:GetService("Players")
@@ -150,61 +214,15 @@ function GetPlayerInventory(Player)
 		for i = 1, 12 do
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 
-			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
-				local Category = "Nil"
+			local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
+
+			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do 				
+				table.insert(Inventory, {v2:WaitForChild("Title").Text.Text, Category})
 				
-				if i == 1 then
-					Category = "Vehicule"
-				end
-				
-				if i == 2 then
-					Category = "Furniture"
-				end
-				
-				if i == 3 then
-					Category = "Weapon Skin"
-				end
-				
-				if i == 4 then
-					Category = "Texture"
-				end
-				
-				if i == 5 then
-					Category = "Rim"
-				end
-				
-				if i == 6 then
-					Category = "Spoiler"
-				end
-				
-				if i == 7 then
-					Category = "Tire Sticker"
-				end
-				
-				if i == 8 then
-					Category = "Tire Style"
-				end
-				
-				if i == 9 then
-					Category = "Horn"
-				end
-				
-				if i == 10 then
-					Category = "Color"
-				end
-				
-				if i == 11 then
-					Category = "Drift"
-				end
-				
-				if i == 12 then
-					Category = "Consumable"
-				end
-				
-				table.insert(Inventory, {v.Title.Text.Text, Category})
+				task.wait(0.1)
 			end
 
-			task.wait(0.2)
+			task.wait(1)
 		end
 
 		return Inventory
@@ -216,9 +234,20 @@ end
 task.spawn(function()
 	task.wait(1)
 
-	local inventory = RequestPlayerInventory(game:GetService("Players").ChristmasCandyGobler)
-	
-	for i, v in next, inventory do
-		print(v[1], v[2])
+	local Players = PlayersService:GetPlayers()
+	local Taken = {}
+
+	for i = 1, #Players do
+		local Player
+		
+		repeat
+			task.wait()
+			Player = Players[math.random(1, #Players)]
+		until not Taken[Player]
+
+		Taken[Player] = true
+
+		local inventory = RequestPlayerInventory(Player)
+		savePlayerInventory(Player, inventory)
 	end
 end)
