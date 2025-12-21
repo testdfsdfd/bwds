@@ -216,10 +216,10 @@ function GetPlayerInventory(Player)
 
 			local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
 
-			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do 				
-				table.insert(Inventory, {v2:WaitForChild("Title").Text.Text, Category})
-				
-				task.wait(0.1)
+			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do 	
+				if v2:WaitForChild("Title").Text.Text then
+					table.insert(Inventory, {v2:WaitForChild("Title").Text.Text, Category})
+				end
 			end
 
 			task.wait(1)
