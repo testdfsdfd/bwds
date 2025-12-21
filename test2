@@ -220,9 +220,11 @@ function GetPlayerInventory(Player)
 				print(Category, v2.Title.Text.Text, i)
 				
 				table.insert(Inventory, {v2.Title.Text.Text, Category})
+				
+				task.wait(0.1)
 			end
 
-			task.wait(0.3)
+			task.wait(1)
 		end
 
 		return Inventory
@@ -382,7 +384,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test2'))()")
 
 	repeat
 		task.wait(1)
