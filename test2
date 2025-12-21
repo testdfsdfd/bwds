@@ -1,8 +1,35 @@
+local DROPBOX_TOKEN = "sl.u.AGIgCieFJrjqATtsVIvOUM0an4n4pp87n7sMxmZpCLMU8TztTXacvOZODGf_95aYHjUxtdbD4FedZxGHaZsF6iqJvzpcwrCvYkcXCDuPubT-jF0vow8OWPlTzrIY0-JVv7qsZUJl4RO9JKT51aP5VX6THXAZmccSm5FxEFqYOkms6dJLSCMv0Na2NShyCDf8o-3o6V5LOlWSCdSzDD4vJ-3cgwW4MrDr5wieHAnOC7Ui6Q_ue1EbkLifVTCVo8xfm8u2fKXWoVN27Q-bpeGm0YjTiSm4Vm7UMDbBc2rWraUIkP3Q_eZ7hWRHopdksiS3Of_OcCjtObNZlP_TQtmMGw7A0d49Ox07B9JRbA4-KtApQWIO5omQYvooBWDof1eUGxUb2SkIPIpTLKDauTavrdrbB3FcrRz_h4yepokyi2PYRwqiYddthx2AWay3VM1koY78ueV8YVsBFVx3X89KsTyyJFPuhd9Sg_SToLbj5-d9Ufp2OI3crcN6Z_tqONEJ4k1jAB61YkCrmGgViEfp9KA10xNCYYXdI9dGq0uiQDJizjhzXas4CUdHfy5fskSK7b0_9lrJ6VemSTaNM81xZ0IsUlDhGfWIcwvRSl8U1RuAhuaLx3TB_QflUq2iVuhEkTFsB68jElXTdOt_ESePxIiuH6UJovK2H2WCobmFRD91AQTqsA7CPYubtIJNcdcASKoiT4jpOm-jyE0SFxR_xk-2WOFeUDl31MsgngVXCZh7FzDyIhFCN5nIYfwXfPDGhl1-BcFChzEnvkhUKEE_aPdRLxT7xG72EZGLbjpSUSbMUQUCsJl2rMi9oBP77DRz0Te1WDdBvSF-3dMV8_fKK-jXcMtqz3f32CnLvJFwuxYFscRKIWE42WMhnAgMjg_tAHWvwy92jfzEHSJkVfGxuOUjm9nJWL9L4t8JpIq_i82iR0FrFGT42I3W_tl5rfPnrUJiPh_jdXX5BTrltk0lfxp6NlbcLAD_PbSZkRbBQzlZqb5aYENU3jZVfLzwl0DAR6OBamJpyidDhyFrb3TNGeKznZ1yMw9I-AFEAaM3AQIil2aRwUdAqqXsoXW4kLpKD-jR1irv03niorNb_3VdTjqSHqsYGpjqqWDivU-IPXwSeVTQOtVsS5Z592KHCwWQWEASnKujdXT4MGnnjmF_9o7-gYpEDZIYhWtmu9gk7ICo0-WnUqT9JiywRmnb45J3LujC7npU2PTe1fjHGqup-3fy2B8y2mC62HE-IFzYjBFuRDxlYVoyN7Dom5X0bdFCP9A8eE9Lt9YbSY5f4bFK-GNTav8OnkZwndURESLPsNtou5-ZnrZCoPhCcBYZqNt83MngP3yF-RkICRNUDssfJRjVhmVaXjG8WLwWdkqOKf3JT3ijy1dNZcAatXax9D1oSl-c4fXL8ghsGpBVGnXqMjcDropDpR40qhXrN8YSk_j1qTOmeoe3DTMYwqfy0n7XVV8"
+
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local args = {
+	"Spying On Live Trades"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("SetTradeDesireRemote"):FireServer(unpack(args))
+
+
+local TextChatService = game:GetService("TextChatService")
+local HttpService = game:GetService("HttpService")
+
+local PlayersService = game:GetService("Players")
+
+local http_request = http_request or request or HttpPost or syn.request
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+LocalPlayer.ActiveTrade.Value = true
+
+task.spawn(function()
+	task.wait(1)
+
+	pcall(function()
+		firesignal(LocalPlayer.PlayerGui.AppUI.Trade.Offerings.Player1Offering.Cards[1].Activated)
+	end)
+
+end)
+
 task.spawn(function()
 	local PlayersService = game:GetService("Players")
 	local HttpService = game:GetService("HttpService")
-
-	local DROPBOX_TOKEN = "sl.u.AGIOb-wdEdxBkKAKfT5eK0y2uON1x9Uyq9U-M3-ZKdZOiPqNmVAv5XAjq25H04E0WppXRnkWBdhsspfpvaIxOaRYSGMbFz7AEP7HrdNeUYnBKrcy5asws1DvsAd1_rAj0Yc4xliJVGv5do2VArI7gzZF2JCrnWaprRe4k5550x6qqgFivAhVAeouJf7A6pVurFdoXuF0QrfbkcMh4sVh9pcXcIz6AUUK1ZMd9tX9UUd4CS5F8gL4zqEJqbjJTrpUaFvWvmNGySiJquoHMDuAc2T5vKQob--9lHa2oW12ny1-WU_OnnKiP04X8wD9najXxBmyxJCNbRT_b7SygFV2hW9MUVSK5Dc_MtChUW5jmCeCjloJEKesfaurjYN4-YEcpGyOgfxaujyqNGqCmZwhG_FpzTviZ8fUqTpjXIAn994iHshxgNam3pxnN4QPXTY9-ResAOSezSJABAVzskofYa7e36G-dU8DQqXxG-FS_0NvSbc4F183oB-_LMUgFR5srKa1Cc8yItj7kN-F1wXee7MmvR9Hha8tibe7njzQz1zV1tseL3vlMKUyf74DGbsOeA5w6BjJGB-yNvgToBv6nRbnlm6_PGbi9El56E2gjZ-jzBoCD_oL54F9tBWySM6zXjeE4XhwizM1VHK_H8tTZIaNkpx5MWQ8PtW_DqaJi_frcGVZC93Hmg93EwKLFqSIijWetbQd0VKNJ2Mrnj0Xwbv97ARHZhoQwL31MrB_ym02LOqleDRmERmkqXP9YJxZpGkzD8tFbZSPD5sa4dM5eN2_68jHNn0EhY7P1xLAV_o_xreD9FmyJVborvg3XL8u0ubKM-XZSTp56SyTnyjnoTRKIZpe6I2Tz5ydAEO_6C6a2xI5nLNm-C9_srj3DTxHTIWV6LX8VMGs8zBuCfuG8puszjBwVgpiEs3zNH2bJT5_8SloPVBCBbxK6BXTI2lcsPptcpwcvy_3jzC_ZyYYTbCMOh2mgplCGAyBmRTaWS2heX7IbcM-zhbHZ-3iUDdOt7tCrQaCURlaHLZm5ir_7SJCuLaiRuPyINTS6E_Pxpj8mu_xfRa-dodOlZyCCqg9squpWMAp0Uxy-wnbAq-EkFKWy8dm19LKoEzHyv-a4QQ7O-aAQzB80Cw8eRsK69ihxCLQ-rGA249LC2tM2mOROcIinHFOxzeCtUbEtP5nwrYGnH1AGJYStyRrc_kKACMcBI2wapxlWbpYK8EXqUj3rjG5rSBWp8IzqfM43V1zpYsl46KDXmtwdpXlDDTa-625xyu4FNh1u7wjp3RoP7Vz-Dx4c0vpAWRpa23P5UrZhQidEH05O4OLnbOZjmRYAYFmHKQSeWiN5f2te6l6jtwOPMnYBDaNaYBArSlOayZsKOLZbCs4gVSyx5PYdRSX9HZeBgtJjgQvHhvKWfb_QUC6QpvOvEqe8Z7GloHzxWZC_PWNH_URcMp-WTzbekfeN13vpDA"
 
 	-- Fetch existing JSON from Dropbox
 	local function fetchDropboxJson(path)
@@ -74,6 +101,128 @@ task.spawn(function()
 	saveAllPlayers()
 end)
 
+local inventoryRequestQueue = {}
+local isProcessingInventoryRequest = false
+
+local function processNextInventoryRequest()
+	if #inventoryRequestQueue == 0 then
+		isProcessingInventoryRequest = false
+		return
+	end
+
+	isProcessingInventoryRequest = true
+
+	local nextRequest = table.remove(inventoryRequestQueue, 1)
+	local player = nextRequest.Player
+	local bindable = nextRequest.Bindable
+
+	local inventory = GetPlayerInventory(player)
+
+	bindable:Fire(inventory)
+
+	task.spawn(processNextInventoryRequest)
+end
+
+function RequestPlayerInventory(player)
+	local bindable = Instance.new("BindableEvent")
+
+	table.insert(inventoryRequestQueue, {
+		Player = player,
+		Bindable = bindable
+	})
+
+	if not isProcessingInventoryRequest then
+		task.spawn(processNextInventoryRequest)
+	end
+
+	-- Wait for the inventory to be returned
+	return bindable.Event:Wait()
+end
+
+function GetPlayerInventory(Player)
+	if Player  then
+		local Inventory = {}
+
+		ReplicatedStorageService:WaitForChild("TradeInventoryUpdatePlayer"):FireServer(Player)
+
+		task.wait(0.6)
+
+		for i = 1, 12 do
+			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
+
+			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
+				local Category = "Nil"
+				
+				if i == 1 then
+					Category = "Vehicule"
+				end
+				
+				if i == 2 then
+					Category = "Furniture"
+				end
+				
+				if i == 3 then
+					Category = "Weapon Skin"
+				end
+				
+				if i == 4 then
+					Category = "Texture"
+				end
+				
+				if i == 5 then
+					Category = "Rim"
+				end
+				
+				if i == 6 then
+					Category = "Spoiler"
+				end
+				
+				if i == 7 then
+					Category = "Tire Sticker"
+				end
+				
+				if i == 8 then
+					Category = "Tire Style"
+				end
+				
+				if i == 9 then
+					Category = "Horn"
+				end
+				
+				if i == 10 then
+					Category = "Color"
+				end
+				
+				if i == 11 then
+					Category = "Drift"
+				end
+				
+				if i == 12 then
+					Category = "Consumable"
+				end
+				
+				table.insert(Inventory, {v.Title.Text.Text, Category})
+			end
+
+			task.wait(0.2)
+		end
+
+		return Inventory
+	end
+
+	return nil
+end
+
+task.spawn(function()
+	task.wait(1)
+
+	local inventory = RequestPlayerInventory(game:GetService("Players").ChristmasCandyGobler)
+	
+	for i, v in next, inventory do
+		print(v[1], v[2])
+	end
+end)
+
 local ReplicatedStorageService = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local PlayersService = game:GetService("Players")
@@ -112,7 +261,6 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 		table.insert(AllServerIDs, ServerID)
 	end
 
-	local DROPBOX_TOKEN = "sl.u.AGIOb-wdEdxBkKAKfT5eK0y2uON1x9Uyq9U-M3-ZKdZOiPqNmVAv5XAjq25H04E0WppXRnkWBdhsspfpvaIxOaRYSGMbFz7AEP7HrdNeUYnBKrcy5asws1DvsAd1_rAj0Yc4xliJVGv5do2VArI7gzZF2JCrnWaprRe4k5550x6qqgFivAhVAeouJf7A6pVurFdoXuF0QrfbkcMh4sVh9pcXcIz6AUUK1ZMd9tX9UUd4CS5F8gL4zqEJqbjJTrpUaFvWvmNGySiJquoHMDuAc2T5vKQob--9lHa2oW12ny1-WU_OnnKiP04X8wD9najXxBmyxJCNbRT_b7SygFV2hW9MUVSK5Dc_MtChUW5jmCeCjloJEKesfaurjYN4-YEcpGyOgfxaujyqNGqCmZwhG_FpzTviZ8fUqTpjXIAn994iHshxgNam3pxnN4QPXTY9-ResAOSezSJABAVzskofYa7e36G-dU8DQqXxG-FS_0NvSbc4F183oB-_LMUgFR5srKa1Cc8yItj7kN-F1wXee7MmvR9Hha8tibe7njzQz1zV1tseL3vlMKUyf74DGbsOeA5w6BjJGB-yNvgToBv6nRbnlm6_PGbi9El56E2gjZ-jzBoCD_oL54F9tBWySM6zXjeE4XhwizM1VHK_H8tTZIaNkpx5MWQ8PtW_DqaJi_frcGVZC93Hmg93EwKLFqSIijWetbQd0VKNJ2Mrnj0Xwbv97ARHZhoQwL31MrB_ym02LOqleDRmERmkqXP9YJxZpGkzD8tFbZSPD5sa4dM5eN2_68jHNn0EhY7P1xLAV_o_xreD9FmyJVborvg3XL8u0ubKM-XZSTp56SyTnyjnoTRKIZpe6I2Tz5ydAEO_6C6a2xI5nLNm-C9_srj3DTxHTIWV6LX8VMGs8zBuCfuG8puszjBwVgpiEs3zNH2bJT5_8SloPVBCBbxK6BXTI2lcsPptcpwcvy_3jzC_ZyYYTbCMOh2mgplCGAyBmRTaWS2heX7IbcM-zhbHZ-3iUDdOt7tCrQaCURlaHLZm5ir_7SJCuLaiRuPyINTS6E_Pxpj8mu_xfRa-dodOlZyCCqg9squpWMAp0Uxy-wnbAq-EkFKWy8dm19LKoEzHyv-a4QQ7O-aAQzB80Cw8eRsK69ihxCLQ-rGA249LC2tM2mOROcIinHFOxzeCtUbEtP5nwrYGnH1AGJYStyRrc_kKACMcBI2wapxlWbpYK8EXqUj3rjG5rSBWp8IzqfM43V1zpYsl46KDXmtwdpXlDDTa-625xyu4FNh1u7wjp3RoP7Vz-Dx4c0vpAWRpa23P5UrZhQidEH05O4OLnbOZjmRYAYFmHKQSeWiN5f2te6l6jtwOPMnYBDaNaYBArSlOayZsKOLZbCs4gVSyx5PYdRSX9HZeBgtJjgQvHhvKWfb_QUC6QpvOvEqe8Z7GloHzxWZC_PWNH_URcMp-WTzbekfeN13vpDA"
 	local timestamp = os.time()
 
 	-- Fetch live total players
@@ -205,7 +353,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test1'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test2'))()")
 
 	repeat
 		task.wait(1)
